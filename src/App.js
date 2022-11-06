@@ -27,6 +27,15 @@ function App() {
           {reco}
         </h4>
         <p>11월 4일 발행</p>
+        <span
+          onClick={() => {
+            let newArr = [...title];
+            newArr[0] = "여성 가방 추천";
+            setTitle(newArr);
+          }}
+        >
+          버튼
+        </span>
       </div>
       <div className="list">
         <h4>{title[1]}</h4>
@@ -36,7 +45,6 @@ function App() {
         <h4>{title[2]}</h4>
         <p>11월 4일 발행</p>
       </div>
-      <span onClick={setTitle((title[0] = "여성 가방 추천"))}>버튼</span>
     </div>
   );
 }
