@@ -9,12 +9,7 @@ function App() {
   ]);
   const [reco, setReco] = useState([0, 0, 0]);
   const [modal, setModal] = useState(false);
-
-  const changeFirstTitle = () => {
-    let newArr = [...title];
-    newArr[0] = "여성 가방 추천";
-    setTitle(newArr);
-  };
+  const [titleIndex, setTitleIndex] = useState(0);
 
   return (
     <div className="App">
@@ -32,35 +27,15 @@ function App() {
         가나다순정렬
       </button>
 
-      <button onClick={changeFirstTitle}>버튼</button>
-      {/* <div className="list">
-        <h4>
-          {title[0]}
-          <span
-            onClick={() => {
-              setReco(reco + 1);
-            }}
-          >
-            ❤️
-          </span>
-          {reco}
-        </h4>
-        <p>11월 4일 발행</p>
-      </div>
-      <div className="list">
-        <h4>{title[1]}</h4>
-        <p>11월 4일 발행</p>
-      </div>
-      <div className="list">
-        <h4
-          onClick={() => {
-            setModal(!modal);
-          }}
-        >
-          {title[2]}
-        </h4>
-        <p>11월 4일 발행</p>
-      </div> */}
+      <button
+        onClick={() => {
+          let newArr = [...title];
+          newArr[0] = "여성 가방 추천";
+          setTitle(newArr);
+        }}
+      >
+        버튼
+      </button>
 
       {/*
        * map 함수란
@@ -74,6 +49,7 @@ function App() {
             <h4
               onClick={() => {
                 setModal(!modal);
+                setTitleIndex(i);
               }}
             >
               {title[i]}
@@ -92,7 +68,9 @@ function App() {
           </div>
         );
       })}
-      {modal == true ? <Modal title={title} ChFT={changeFirstTitle} /> : null}
+      {modal == true ? (
+        <Modal title={title} setTitle={setTitle} titleIndex={titleIndex} />
+      ) : null}
     </div>
   );
 }
@@ -100,15 +78,17 @@ function App() {
 const Modal = (props) => {
   return (
     <div className="modal">
-      <h4>{props.title}</h4>
+      <h4>{props.title[props.titleIndex]}</h4>
       <p>날짜</p>
       <p>상세 내용</p>
       <button
         onClick={() => {
-          props.ChFT();
+          let a = [...props.title];
+          a[0] = "여자 코트 추천";
+          props.setTitle(a);
         }}
       >
-        버튼
+        수정
       </button>
     </div>
   );
