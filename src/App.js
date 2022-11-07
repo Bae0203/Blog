@@ -7,9 +7,11 @@ function App() {
     "여성 맨투맨 추천",
     "남녀 공용 신발 추천",
   ]);
+  const [date, setDate] = useState(["11월 4일", "11월 4일", "11월 4일"]);
   const [reco, setReco] = useState([0, 0, 0]);
   const [modal, setModal] = useState(false);
   const [titleIndex, setTitleIndex] = useState(0);
+  const [inputVal, setInputVal] = useState("");
 
   return (
     <div className="App">
@@ -53,21 +55,62 @@ function App() {
               }}
             >
               {title[i]}
+              <span
+                onClick={(e) => {
+                  e.stopPropagation();
+                  let a = [...reco];
+                  a[i] = a[i] + 1;
+                  setReco(a);
+                }}
+              >
+                ❤️
+              </span>
+              {reco[i]}
             </h4>
-            <span
+            <p>{date[i]}</p>
+            <button
               onClick={() => {
-                let a = [...reco];
-                a[i] = a[i] + 1;
-                setReco(a);
+                let a = [...title];
+                console.log(a.splice(i, 1));
+                setTitle(a);
               }}
             >
-              ❤️
-            </span>
-            {reco[i]}
-            <p>11월 4일 발행</p>
+              삭제
+            </button>
           </div>
         );
       })}
+      <input
+        type={"text"}
+        onChange={(e) => {
+          setInputVal(e.target.value);
+          console.log(inputVal);
+        }}
+      />
+      <button
+        onClick={() => {
+          let copy = [...title];
+          let copy_reco = [...reco];
+          let copy_date = [...date];
+          let Todaydate = new Date();
+          let todayDate = Todaydate.getDate();
+          let todayMonth = Todaydate.getMonth();
+          todayMonth = todayMonth + 1;
+          if (inputVal != "") {
+            copy_reco.unshift(0);
+            copy.unshift(inputVal);
+            copy_date.unshift(todayMonth + "월 " + todayDate + "일");
+            setTitle(copy);
+            setReco(copy_reco);
+            setDate(copy_date);
+          }
+          // 밑에 처럼 짜면 안됨(내가 쓴 useState 블로그 글 보기!!)
+          // title.push(inputVal);
+          // console.log(title);
+        }}
+      >
+        추가
+      </button>
       {modal == true ? (
         <Modal title={title} setTitle={setTitle} titleIndex={titleIndex} />
       ) : null}
@@ -76,6 +119,9 @@ function App() {
 }
 //컴포넌트를 만들땐 앞글자는 무조건 대문자!
 const Modal = (props) => {
+  //State 만드는 곳은 State를 사용하는 컴포넌트들 중에 가장 최상위에 만들기
+  //const [titleIndex, setTitleIndex] = useState(0);
+
   return (
     <div className="modal">
       <h4>{props.title[props.titleIndex]}</h4>
