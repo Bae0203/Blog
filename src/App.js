@@ -89,20 +89,22 @@ function App() {
       />
       <button
         onClick={() => {
-          let copy = [...title];
-          let copy_reco = [...reco];
-          let copy_date = [...date];
+          let copy = {
+            title: [...title],
+            reco: [...reco],
+            date: [...date],
+          };
           let Todaydate = new Date();
           let todayDate = Todaydate.getDate();
           let todayMonth = Todaydate.getMonth();
           todayMonth = todayMonth + 1;
           if (inputVal != "") {
-            copy_reco.unshift(0);
-            copy.unshift(inputVal);
-            copy_date.unshift(todayMonth + "월 " + todayDate + "일");
-            setTitle(copy);
-            setReco(copy_reco);
-            setDate(copy_date);
+            copy.reco.unshift(0);
+            copy.title.unshift(inputVal);
+            copy.date.unshift(todayMonth + "월 " + todayDate + "일");
+            setTitle(copy.title);
+            setReco(copy.reco);
+            setDate(copy.date);
           }
           // 밑에 처럼 짜면 안됨(내가 쓴 useState 블로그 글 보기!!)
           // title.push(inputVal);
